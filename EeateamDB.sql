@@ -1,14 +1,20 @@
 CREATE DATABASE EateamDB;
 
+CREATE TABLE userTypes(
+typeId TINYINT PRIMARY KEY NOT NULL,
+typeName VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE faculty(
 facultyId TINYINT PRIMARY KEY NOT NULL,
-facultyName VARCHAR(255)
+facultyName VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE users(
 
 userId INT PRIMARY KEY NOT NULL,
 userType TINYINT NOT NULL, 
+FOREIGN KEY (userType) REFERENCES userTypes(typeId),
 name VARCHAR(255) NOT NULL,
 mail VARCHAR(255) NOT NULL,
 phoneNumber VARCHAR(255) NOT NULL,
@@ -29,21 +35,20 @@ FOREIGN KEY (blockeeId) REFERENCES users(userId)
 
 CREATE TABLE meetings(
 meetingId INT PRIMARY KEY NOT NULL,
-member1 INT NOT NULL,
-FOREIGN KEY (member1) REFERENCES users(userId),
-member2 INT NOT NULL,
-FOREIGN KEY (member2) REFERENCES users(userId),
-member3 INT,
-FOREIGN KEY (member3) REFERENCES users(userId),
-member4 INT,
-FOREIGN KEY (member4) REFERENCES users(userId),
-member5 INT,
-FOREIGN KEY (member5) REFERENCES users(userId),
 location VARCHAR(255) NOT NULL,
 meetingDate DATE NOT NULL,
- -- rating TINYINT,???????
 meetingTime TIME NOT NULL
-)
+);
+
+CREATE TABLE memberRating(
+meetingId INT NOT NULL,
+FOREIGN KEY(meetingId) REFERENCES meetings(meetingId),
+userId INT NOT NULL,
+FOREIGN KEY(userId) REFERENCES users(userId),
+rating TINYINT 
+);
+
+
 
 
 
